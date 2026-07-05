@@ -1,4 +1,5 @@
-import os # os lets us access the environment variables
+# os lets us access the environment variables
+import os
 from dotenv import load_dotenv
 # and load_dotenv() reads the '.env' file and actually loads its value in the environment
 # without load_dotenv(), os won't be able to find variables in '.env'
@@ -28,7 +29,7 @@ class ProductionConfig(Config):
 # to define the environment and to keep config. aligned.
 # And also, it'd be easier to add more environments lie (staging) later on
 config_by_name = {
-    'development': DevelopmentConfig,
+    'development': DevelopmentConfig, #this is the class which will be stored in key (development)
     'testing': TestingConfig,
     'production': ProductionConfig,
 }
