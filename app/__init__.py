@@ -1,5 +1,8 @@
+# WIRES EVERYTHING TOGETHER
 from flask import Flask
 from config import config_by_name
+from app.extensions.db import db
+from app.extensions.migrate import migrate
 
 def create_app(config_name='development'):
     app = Flask(__name__)
@@ -8,8 +11,10 @@ def create_app(config_name='development'):
     # to the 'app.config' to configure the environment
 
     app.config.from_object(config_by_name[config_name])
+    db.init_app(app) # 'db' here is an instance of [db = SQLAlchemy()], not db.py
+    migrate.init_app(app, db)
 
-    @app.get('/health_check')
+    @app.route('/health_check', methods=['GET'])
     def health_check():
         return {"status": "ok"}
 
