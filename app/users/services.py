@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.extensions.db import db
 from app.models import User
-from app.errors.exceptions import EmailAlreadyExistsError
+from app.errors.exceptions import *
 
 
 def ping():
@@ -39,3 +39,18 @@ def create_user(name, email, password):
 
 # we're returning two values here and (/* here). the user value and state which would be
 # accepted in the routes.py as (user_data, success register_new_user(...)
+
+def login_user(email, password):
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        raise InvalidCredentialsError()
+
+    password_matches = bcrypt.checkpw(
+            password.encode("utf-8"),
+            user.password_hash.encode("utf-8")
+    )
+    if not password_matches:
+        raise InvalidCredentialsError()
+
+    return user

@@ -61,3 +61,38 @@ def validate_signup_data(data: dict) -> dict:
         "email": email,
         "password": password,
     }
+
+def validate_login_data(data: dict) -> dict:
+    # For Email
+
+    email = data.get("email")
+
+    if email is None:
+        raise ValidationError("Email is required")
+
+    if not isinstance(email, str):
+        raise ValidationError("Email must be a string")
+
+    email = email.strip().lower()
+    if len(email) > 255:
+        raise ValidationError("Email cannot exceed 255 characters")
+
+    if not EMAIL_REGEX.fullmatch(email):
+        raise ValidationError("Invalid email address")
+
+    # For password
+
+    password = data.get("password")
+    if password is None:
+        raise ValidationError("Password is required")
+
+    if not isinstance(password, str):
+        raise ValidationError("Password must be a string")
+
+    if len(password) < 8:
+        raise ValidationError("Password must be at least 8 characters")
+
+    return {
+        "email": email,
+        "password": password,
+    }

@@ -5,6 +5,7 @@ from app.users.routes import users_bp
 from config import config_by_name
 from app.extensions.db import db
 from app.extensions.migrate import migrate
+from app.extensions.jwt import jwt
 
 
 def create_app(config_name='development'):
@@ -17,6 +18,7 @@ def create_app(config_name='development'):
 
     db.init_app(app) # 'db' here is an instance of [db = SQLAlchemy()], not db.py
     migrate.init_app(app, db)
+    jwt.init_app(app)
 
     from app import models
 

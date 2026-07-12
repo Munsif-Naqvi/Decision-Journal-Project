@@ -2,6 +2,8 @@
 
 # os lets us access the environment variables
 import os
+from datetime import timedelta
+
 from dotenv import load_dotenv
 # and load_dotenv() reads the '.env' file and actually loads its value in the environment
 # without load_dotenv(), os won't be able to find variables in '.env'
@@ -13,6 +15,9 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY') # gets the defined SECRET_KEY from '.env'
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 
 # inherits the base Config class, and overrides the changes it wants
 class DevelopmentConfig(Config):
