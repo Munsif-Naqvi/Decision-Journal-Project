@@ -96,3 +96,11 @@ def validate_login_data(data: dict) -> dict:
         "email": email,
         "password": password,
     }
+
+def serialize_user(user):
+    return {
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "created_at": user.created_at.isoformat(),
+    }

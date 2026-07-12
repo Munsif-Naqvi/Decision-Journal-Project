@@ -54,3 +54,10 @@ def login_user(email, password):
         raise InvalidCredentialsError()
 
     return user
+
+def logged_in_user(id):
+    user = db.session.get(User, int(id))
+    if user is None:
+        raise UserDoesNotExistError()
+
+    return user

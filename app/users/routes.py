@@ -16,9 +16,8 @@ def ping():
 @jwt_required()
 def me():
    user_id = int(get_jwt_identity())
-   return {
-       "id": user_id,
-   }, 200
+   user = services.logged_in_user(user_id)
+   return serialize_user(user), 200
 
 @users_bp.post("/signup")
 def signup():
