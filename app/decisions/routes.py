@@ -101,6 +101,10 @@ def update_decision(decision_id):
         }), 200
 
     except DecisionDoesNotExistError as e:
-        return jsonify({"error": e}), 400
+        return jsonify({
+            "error": str(e)
+        }), 400
     except DecisionLockedError:
-        return jsonify({"error": "Cannot update a closed decision"}), 400
+        return jsonify({
+            "error": "Cannot update an already reviewed decision"
+        }), 400

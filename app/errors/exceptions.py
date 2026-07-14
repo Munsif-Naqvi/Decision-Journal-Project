@@ -22,6 +22,6 @@ class DecisionDoesNotExistError(Exception):
     """Raised when attempting to access decision that does not exist"""
     pass
 
-class DecisionLockedError(Exception):
-    """Raised when attempting to update a closed decision"""
+class DecisionAlreadyReviewedError(Exception):
+    """Raised when attempting to update a reviewed decision"""
     pass

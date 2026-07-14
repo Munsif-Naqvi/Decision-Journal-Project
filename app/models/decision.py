@@ -1,17 +1,22 @@
 from datetime import datetime, UTC
-from email.policy import default
-
 from app.extensions.db import db
+
 
 class Decision(db.Model):
     __tablename__ = 'decisions'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
 
     user = db.relationship(
         "User",
         back_populates="decisions"
     )
+    review = db.relationship(
+        "Review",
+        back_populates="decision",
+        uselist=False
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
 
     decision_statement = db.Column(db.Text, nullable=False) # what decision are you taking
     reasoning = db.Column(db.Text, nullable=False) # why are you taking this decision
@@ -34,3 +39,4 @@ class Decision(db.Model):
             name="check_confidence_level"
         ),
     )
+

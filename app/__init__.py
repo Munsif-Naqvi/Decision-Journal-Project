@@ -1,6 +1,7 @@
 # WIRES EVERYTHING TOGETHER
 from flask import Flask
 
+from app.reviews.routes import reviews_bp
 from app.users.routes import users_bp
 from app.decisions.routes import decisions_bp
 from config import config_by_name
@@ -25,5 +26,6 @@ def create_app(config_name='development'):
 
     app.register_blueprint(users_bp, url_prefix='/api/v1/users')
     app.register_blueprint(decisions_bp, url_prefix='/api/v1/decisions')
+    app.register_blueprint(reviews_bp, url_prefix='/api/v1/reviews')
 
     return app
