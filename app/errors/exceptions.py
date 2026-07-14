@@ -13,3 +13,15 @@ class InvalidCredentialsError(Exception):
 class UserDoesNotExistError(Exception):
     """Raised when attempting to access account that does not exist"""
     pass
+
+class InvalidTokenError(Exception):
+    """Raised when invalid JWT token is provided """
+    pass
+
+class DecisionDoesNotExistError(Exception):
+    """Raised when attempting to access decision that does not exist"""
+    pass
+
+class DecisionLockedError(Exception):
+    """Raised when attempting to update a closed decision"""
+    pass

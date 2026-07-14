@@ -6,6 +6,12 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
 
+    decisions = db.relationship(
+        "Decision",
+        back_populates="user",
+        lazy=True
+    )
+
     name = db.Column(db.String(100), nullable=False)
 
     email = db.Column(db.String(255), unique=True, nullable=False)

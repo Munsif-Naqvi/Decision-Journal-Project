@@ -2,6 +2,7 @@
 from flask import Flask
 
 from app.users.routes import users_bp
+from app.decisions.routes import decisions_bp
 from config import config_by_name
 from app.extensions.db import db
 from app.extensions.migrate import migrate
@@ -23,6 +24,6 @@ def create_app(config_name='development'):
     from app import models
 
     app.register_blueprint(users_bp, url_prefix='/api/v1/users')
-
+    app.register_blueprint(decisions_bp, url_prefix='/api/v1/decisions')
 
     return app
