@@ -26,6 +26,7 @@ class DevelopmentConfig(Config):
 # inherits the base Config class, and overrides the changes it wants
 class TestingConfig(Config):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
 
 # inherits the base Config class, and overrides the changes it wants
 class ProductionConfig(Config):

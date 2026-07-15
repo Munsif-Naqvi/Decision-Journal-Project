@@ -13,7 +13,7 @@ def ping():
 
 @decisions_bp.post("/decision")
 @jwt_required()
-def decision():
+def create_decision():
 
     try:
         user_id = int(get_jwt_identity())
@@ -104,7 +104,31 @@ def update_decision(decision_id):
         return jsonify({
             "error": str(e)
         }), 400
-    except DecisionLockedError:
+    except DecisionAlreadyReviewedError:
         return jsonify({
             "error": "Cannot update an already reviewed decision"
         }), 400
+
+@decisions_bp.get("/")
+@jwt_required()
+def get_decisions_by_status():
+    try:
+        user_id = int(get_jwt_identity())
+    except (ValueError, TypeError):
+        return jsonify({"error": "Malformed user identity in token"}), 422
+
+    status_filter = request.args.get("status")
+
+    if status_filter:
+        status_filter = status_filter.strip().upper()
+
+        try:
+            decisions = return_decisions_with_status(user_id, status_filter)
+            return jsonify(serialize_decisions(decisions)), 200
+
+        except DecisionDoesNotExistError as e:
+            return jsonify({
+
+                "error": str(e) if str(e) else f"Invalid status. '{status_filter}'"
+
+            }), 400

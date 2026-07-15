@@ -6,7 +6,7 @@ from app.reviews.services import *
 
 reviews_bp = Blueprint("reviews", __name__, url_prefix="/api/v1/reviews")
 
-@reviews_bp.post('/decisions/<int:decision_id>/review')
+@reviews_bp.post('/decision/<int:decision_id>/review')
 @jwt_required()
 def create_review(decision_id):
     try:
@@ -32,12 +32,12 @@ def create_review(decision_id):
 
     except DecisionDoesNotExistError as e:
         return jsonify({
-            "error": str(e)
+            "error": "Decision does not exist."
         }), 404
 
     except DecisionAlreadyReviewedError:
         return jsonify({
             "error": "Cannot update an already reviewed decision"
-        }), 400
+        }), 409
 
 

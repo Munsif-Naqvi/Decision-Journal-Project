@@ -38,7 +38,7 @@ def update_one_decision(user_id, decision_id, decision_data):
         raise DecisionDoesNotExistError()
 
     if decision.status.lower() != "open":
-        raise DecisionLockedError("Only decisions with an 'open' status can be updated.")
+        raise DecisionAlreadyReviewedError("Only decisions with an 'open' status can be updated.")
 
     for key, value in decision_data.items():
         setattr(decision, key, value)
@@ -50,3 +50,23 @@ def update_one_decision(user_id, decision_id, decision_data):
         db.session.rollback()
         raise
     return decision
+
+
+def return_decisions_with_status(user_id: int, status: str = None):
+    # 1. Start building the base query
+    query = db.session.query(Decision).filter_by(user_id=user_id)
+
+    # 2. If a status parameter was provided, apply the filter dynamically
+    if status:
+        query = query.filter_by(status=status)
+
+    # 3. Execute the query and fetch all matching records
+    decisions = query.all()
+
+    if not decisions:
+        # Customizing the error message based on whether they filtered or not
+        if status:
+            raise DecisionDoesNotExistError(f"Invalid status '{status}'")
+        raise DecisionDoesNotExistError("No decisions found for this user.")
+
+    return decisions
