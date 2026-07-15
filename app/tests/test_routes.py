@@ -1,5 +1,3 @@
-from urllib import response
-
 
 def test_signup_success(client):
     data = user_data()

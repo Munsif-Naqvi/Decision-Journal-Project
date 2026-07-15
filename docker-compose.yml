@@ -1,0 +1,40 @@
+services:
+  api:
+    build: .
+
+    container_name: decision_journal_api
+
+    ports:
+      - "5000:5000"
+
+    env_file:
+      - .env
+
+    environment:
+      DATABASE_URL: postgresql+psycopg://decision_user:naqvi@db:5432/decision_journal
+
+    depends_on:
+      - db
+
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+
+    container_name: decision_journal_db
+
+    environment:
+      POSTGRES_USER: decision_user
+      POSTGRES_PASSWORD: naqvi
+      POSTGRES_DB: decision_journal
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
